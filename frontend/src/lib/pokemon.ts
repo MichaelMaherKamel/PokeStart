@@ -15,9 +15,18 @@ export interface Pokemon {
 const DEV_API_URL = 'http://localhost:8080'
 const PROD_API_URL = 'https://pockemeonserver.macrotech.dev'
 
+// More reliable environment detection
+const isDev = () => {
+  return import.meta.env.DEV === true || 
+         window.location.hostname === 'localhost' || 
+         window.location.hostname === '127.0.0.1'
+}
+
 // Choose the appropriate API URL based on the environment
-// You can modify this condition based on your specific environment detection method
-const API_URL = import.meta.env.DEV ? DEV_API_URL : PROD_API_URL
+const API_URL = isDev() ? DEV_API_URL : PROD_API_URL
+
+console.log('Current environment:', isDev() ? 'Development' : 'Production')
+console.log('Using API URL:', API_URL)
 
 // Fetch all Pokemon
 export const usePokemonList = () => {

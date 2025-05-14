@@ -123,10 +123,21 @@ func loadConfig() Config {
 func corsMiddleware(frontendURL string) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// Set CORS headers
-			w.Header().Set("Access-Control-Allow-Origin", frontendURL)
+			// Get the Origin header from the request
+			origin := r.Header.Get("Origin")
+
+			// Allow requests from your known domains
+			if origin == "https://pokestart.macrotech.dev" || origin == "http://localhost:3000" {
+				w.Header().Set("Access-Control-Allow-Origin", origin)
+			} else {
+				// Fall back to the configured URL if Origin isn't recognized
+				w.Header().Set("Access-Control-Allow-Origin", frontendURL)
+			}
+
+			// Rest of your CORS headers
 			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+			w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 
 			// Handle preflight requests
 			if r.Method == "OPTIONS" {
