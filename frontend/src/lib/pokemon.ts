@@ -1,5 +1,5 @@
-// src/api/pokemonApi.ts
-import { query, action } from '@solidjs/router'
+// src/api/pokemonQueryApi.ts
+import { useQuery } from '@tanstack/solid-query'
 
 // Define Pokemon interface to match the backend model
 export interface Pokemon {
@@ -11,93 +11,39 @@ export interface Pokemon {
   weight: number
 }
 
-// API base URL for the Go backend
-const API_URL = 'http://localhost:8080'
+// API base URLs for development and production environments
+const DEV_API_URL = 'http://localhost:8080'
+const PROD_API_URL = 'https://pockemeonserver.macrotech.dev'
+
+// Choose the appropriate API URL based on the environment
+// You can modify this condition based on your specific environment detection method
+const API_URL = import.meta.env.DEV ? DEV_API_URL : PROD_API_URL
 
 // Fetch all Pokemon
-export const getAllPokemon = query(async (): Promise<Pokemon[]> => {
-  'use server'
-  try {
-    const response = await fetch(`${API_URL}/pokemon`)
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`)
-    }
-    return await response.json()
-  } catch (error) {
-    console.error('Failed to fetch Pokemon:', error)
-    throw error
-  }
-}, 'pokemons')
+export const usePokemonList = () => {
+  return useQuery(() => ({
+    queryKey: ['pokemons'],
+    queryFn: async (): Promise<Pokemon[]> => {
+      const response = await fetch(`${API_URL}/pokemon`)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      return await response.json()
+    },
+  }))
+}
 
 // Fetch a single Pokemon by ID
-export const getPokemonById = query(async (id: number): Promise<Pokemon> => {
-  'use server'
-  try {
-    const response = await fetch(`${API_URL}/pokemon/${id}`)
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`)
-    }
-    return await response.json()
-  } catch (error) {
-    console.error(`Failed to fetch Pokemon #${id}:`, error)
-    throw error
-  }
-}, 'pokemon')
-
-// Create a new Pokemon
-export const createPokemon = action(async (pokemon: Omit<Pokemon, 'id'>): Promise<Pokemon> => {
-  'use server'
-  try {
-    const response = await fetch(`${API_URL}/pokemon`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(pokemon),
-    })
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`)
-    }
-    return await response.json()
-  } catch (error) {
-    console.error('Failed to create Pokemon:', error)
-    throw error
-  }
-})
-
-// Update an existing Pokemon
-export const updatePokemon = action(async (id: number, pokemon: Omit<Pokemon, 'id'>): Promise<Pokemon> => {
-  'use server'
-  try {
-    const response = await fetch(`${API_URL}/pokemon/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id, ...pokemon }),
-    })
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`)
-    }
-    return await response.json()
-  } catch (error) {
-    console.error(`Failed to update Pokemon #${id}:`, error)
-    throw error
-  }
-})
-
-// Delete a Pokemon
-export const deletePokemon = action(async (id: number): Promise<void> => {
-  'use server'
-  try {
-    const response = await fetch(`${API_URL}/pokemon/${id}`, {
-      method: 'DELETE',
-    })
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`)
-    }
-  } catch (error) {
-    console.error(`Failed to delete Pokemon #${id}:`, error)
-    throw error
-  }
-})
+export const usePokemonDetail = (id: number) => {
+  return useQuery(() => ({
+    queryKey: ['pokemon', id],
+    queryFn: async (): Promise<Pokemon> => {
+      const response = await fetch(`${API_URL}/pokemon/${id}`)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      return await response.json()
+    },
+    enabled: !!id, // Only run the query if id is truthy
+  }))
+}

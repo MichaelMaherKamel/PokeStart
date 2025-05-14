@@ -2,7 +2,6 @@ import { A } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import { FloatingPokemon } from './FloatingPokemon'
 import { ParallaxBackground } from './ParallaxBackground'
-import { GameButton } from './GameButton'
 
 export function HeroSection() {
   // Add parallax effect on scroll
@@ -12,7 +11,13 @@ export function HeroSection() {
       const parallaxElements = document.querySelectorAll('.parallax')
       parallaxElements.forEach((element) => {
         const speed = element.getAttribute('data-speed')
-        element.style.transform = `translateY(${scrollValue * speed}px)`
+        // Fix: Handle null and convert to number
+        if (speed !== null) {
+          const speedValue = parseFloat(speed)
+          // Need to cast element as HTMLElement to access style property
+          const htmlElement = element as HTMLElement
+          htmlElement.style.transform = `translateY(${scrollValue * speedValue}px)`
+        }
       })
     }
     window.addEventListener('scroll', handleScroll)
@@ -40,53 +45,13 @@ export function HeroSection() {
       {/* Background Elements */}
       <ParallaxBackground />
 
-      {/* Bottom Floating Pokemon */}
-      <div
-        class='bottom-pokemon-container'
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          'z-index': '1',
-          bottom: '0',
-        }}
-      >
-        <FloatingPokemon id={6} position='left' className='pokemon-left' />
-        <FloatingPokemon id={25} position='center' className='pokemon-center' />
-        <FloatingPokemon id={150} position='right' className='pokemon-right' />
-      </div>
-
-      {/* Top Floating Pokemon */}
-      <div
-        class='top-pokemon-container'
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          'z-index': '1',
-          top: '0',
-        }}
-      >
-        <FloatingPokemon id={94} position='left' style={{ top: '10%', left: '15%' }} className='pokemon-left' />{' '}
-        {/* Gengar */}
-        <FloatingPokemon
-          id={149}
-          position='center'
-          style={{ top: '5%', left: '50%' }}
-          className='pokemon-center'
-        />{' '}
-        {/* Dragonite */}
-        <FloatingPokemon id={3} position='right' style={{ top: '10%', right: '15%' }} className='pokemon-right' />{' '}
-        {/* Venusaur */}
-      </div>
-
-      {/* Hero Content - Centered */}
+      {/* Hero Content - Centered - Now with lower z-index */}
       <div
         class='pixel-border animation-pulse'
         style={{
           'max-width': '800px',
           'text-align': 'center',
-          'z-index': '2',
+          'z-index': '2', // Keep z-index lower than the Pokémon
           'background-color': 'rgba(0, 0, 0, 0.7)',
           'backdrop-filter': 'blur(5px)',
           padding: '2.5rem',
@@ -115,33 +80,98 @@ export function HeroSection() {
         >
           Your ultimate Pokémon adventure begins here with SolidStart and Go!
         </p>
-        <div
-          style={{
-            display: 'flex',
-            gap: '1.5rem',
-            'justify-content': 'center',
-            'flex-wrap': 'wrap',
-          }}
-        >
-          <GameButton href='/pokemons'>Explore Pokémon</GameButton>
-          <GameButton href='/about' variant='secondary'>
-            Learn More
-          </GameButton>
-        </div>
+      </div>
+
+      {/* Bottom Floating Pokemon - Only 2 Pokemon (including Pikachu) */}
+      <div
+        class='bottom-pokemon-container'
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          'z-index': '3', // Higher than the welcome message
+          bottom: '0',
+        }}
+      >
+        <FloatingPokemon id={6} position='left' className='pokemon-left' /> {/* Charizard */}
+        <FloatingPokemon id={25} position='right' className='pokemon-right' /> {/* Pikachu */}
+      </div>
+
+      {/* Top Floating Pokemon - Only 2 Pokemon */}
+      <div
+        class='top-pokemon-container'
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          'z-index': '3', // Higher than the welcome message
+          top: '0',
+        }}
+      >
+        <FloatingPokemon id={94} position='left' style={{ top: '10%', left: '20%' }} className='pokemon-left' /> {/* Gengar */}
+        <FloatingPokemon id={149} position='right' style={{ top: '10%', right: '20%' }} className='pokemon-right' /> {/* Dragonite */}
       </div>
 
       {/* CSS for responsive layout */}
       <style>
         {`
-          /* Responsive styles for Pokémon visibility */
-          @media (max-width: 768px) {
-            .pokemon-center {
-              display: none;
-            }
-            
+          /* Responsive styles for Pokémon visibility and sizing */
+          .floating-pokemon {
+            pointer-events: auto; /* Re-enable pointer events for Pokémon */
+          }
+          
+          /* Position adjustments for 2 Pokémon per row */
+          .pokemon-left {
+            left: 20% !important;
+          }
+          
+          .pokemon-right {
+            right: 20% !important;
+          }
+          
+          @media (max-width: 1200px) {
             .floating-pokemon img {
               height: 150px !important;
             }
+          }
+          
+          @media (max-width: 768px) {
+            .floating-pokemon img {
+              height: 120px !important;
+            }
+            
+            .pokemon-left {
+              left: 15% !important;
+            }
+            
+            .pokemon-right {
+              right: 15% !important;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .floating-pokemon img {
+              height: 100px !important;
+            }
+            
+            .pokemon-left {
+              left: 5% !important;
+            }
+            
+            .pokemon-right {
+              right: 5% !important;
+            }
+          }
+          
+          /* Animation keyframes for floating effect */
+          @keyframes float-left {
+            0%, 100% { transform: translateY(0) rotateZ(-2deg); }
+            50% { transform: translateY(-15px) rotateZ(2deg); }
+          }
+          
+          @keyframes float-right {
+            0%, 100% { transform: translateY(0) rotateZ(2deg); }
+            50% { transform: translateY(-15px) rotateZ(-2deg); }
           }
         `}
       </style>

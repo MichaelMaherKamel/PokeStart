@@ -2,7 +2,6 @@ import { A } from '@solidjs/router'
 import { For } from 'solid-js'
 import { PokemonCard } from './Pokemoncard'
 import { SectionTitle } from './SectionTitle'
-import { GameButton } from '../Hero/GameButton'
 
 export function FeaturedPokemonSection() {
   // Featured Pokémon data
@@ -47,7 +46,7 @@ export function FeaturedPokemonSection() {
       </div>
 
       <div style={{ 'text-align': 'center', 'margin-top': '2rem' }}>
-        <GameButton href='/pokemons'>View All Pokémon</GameButton>
+        <A href='/pokemons'>View All Pokémon</A>
       </div>
     </section>
   )

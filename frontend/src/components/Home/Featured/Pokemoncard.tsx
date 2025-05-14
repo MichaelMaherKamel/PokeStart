@@ -2,7 +2,15 @@ import { A } from '@solidjs/router'
 import { For, createSignal } from 'solid-js'
 import { TypeBadge } from './TypeBadge'
 
-export function PokemonCard({ id, name, types = [], description }) {
+interface PokemonCardProps {
+  id: number;
+  name: string;
+  types: string[];
+  description: string;
+}
+
+export function PokemonCard(props: PokemonCardProps) {
+  const { id, name, types = [], description } = props;
   const [isHovered, setIsHovered] = createSignal(false)
   const [isPulsing, setIsPulsing] = createSignal(false)
 
@@ -10,7 +18,7 @@ export function PokemonCard({ id, name, types = [], description }) {
   const formattedId = id.toString().padStart(3, '0')
 
   // Get accent color based on primary type
-  const getTypeColor = (type) => {
+  const getTypeColor = (type: string) => {
     const typeColors = {
       normal: '#A8A878',
       fire: '#F08030',
@@ -32,7 +40,7 @@ export function PokemonCard({ id, name, types = [], description }) {
       fairy: '#EE99AC',
     }
 
-    return typeColors[type] || '#A8A878'
+    return typeColors[type as keyof typeof typeColors] || '#A8A878'
   }
 
   const primaryType = types[0] || 'normal'
@@ -60,10 +68,11 @@ export function PokemonCard({ id, name, types = [], description }) {
       <div
         style={{
           position: 'relative',
-          'margin-top': '100px',
-          'padding-top': '30px',
-          'margin-bottom': '30px',
+          'margin-top': '70px',
+          'padding-top': '20px',
+          'margin-bottom': '20px',
           cursor: 'pointer',
+          width: '100%',
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -72,23 +81,23 @@ export function PokemonCard({ id, name, types = [], description }) {
         <div
           style={{
             position: 'absolute',
-            top: '-100px',
+            top: '-70px',
             left: '50%',
-            transform: 'translateX(-50%)',
+            transform: isHovered() ? 'translateX(-50%) scale(1.05)' : 'translateX(-50%) scale(1)',
             'z-index': '2',
             display: 'flex',
             'justify-content': 'center',
             transition: 'transform 0.3s',
-            transform: isHovered() ? 'translateX(-50%) scale(1.05)' : 'translateX(-50%) scale(1)',
           }}
         >
           <img
             src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${formattedId}.png`}
             alt={name}
             style={{
-              width: '180px',
-              height: '180px',
+              width: '130px',
+              height: '130px',
               'object-fit': 'contain',
+
             }}
           />
         </div>
@@ -97,14 +106,15 @@ export function PokemonCard({ id, name, types = [], description }) {
         <div
           style={{
             position: 'relative',
-            width: '300px',
-            height: '300px',
+            width: '220px',
+            height: '220px',
             'border-radius': '50%',
             overflow: 'hidden',
             'box-shadow': isHovered() ? '0 15px 30px rgba(0, 0, 0, 0.15)' : '0 5px 15px rgba(0, 0, 0, 0.1)',
             transition: 'box-shadow 0.3s, transform 0.3s',
             transform: isHovered() ? 'translateY(-5px)' : 'translateY(0)',
             margin: '0 auto',
+
           }}
         >
           {/* Pokeball top half design - red portion */}
@@ -123,13 +133,14 @@ export function PokemonCard({ id, name, types = [], description }) {
             <div
               style={{
                 position: 'absolute',
-                top: '20px',
-                left: '40px',
-                width: '60px',
-                height: '20px',
+                top: '15px',
+                left: '30px',
+                width: '40px',
+                height: '15px',
                 background: 'rgba(255, 255, 255, 0.3)',
                 'border-radius': '50%',
                 transform: 'rotate(-30deg)',
+
               }}
             />
           </div>
@@ -154,10 +165,11 @@ export function PokemonCard({ id, name, types = [], description }) {
               top: '50%',
               left: '0',
               width: '100%',
-              height: '10px',
+              height: '8px',
               background: '#333',
               transform: 'translateY(-50%)',
               'z-index': '1',
+
             }}
           >
             {/* Interactive center button */}
@@ -168,10 +180,10 @@ export function PokemonCard({ id, name, types = [], description }) {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '50px',
-                height: '50px',
+                width: '36px',
+                height: '36px',
                 background: 'white',
-                border: '6px solid #333',
+                border: '5px solid #333',
                 'border-radius': '50%',
                 'z-index': '2',
                 display: 'flex',
@@ -179,6 +191,7 @@ export function PokemonCard({ id, name, types = [], description }) {
                 'justify-content': 'center',
                 transition: 'all 0.3s ease',
                 overflow: 'hidden',
+
               }}
             >
               {/* Tap indicator - shows on hover */}
@@ -192,11 +205,12 @@ export function PokemonCard({ id, name, types = [], description }) {
                 {/* Create a minimalist arrow icon */}
                 <div
                   style={{
-                    width: '10px',
-                    height: '10px',
+                    width: '8px',
+                    height: '8px',
                     'border-right': `2px solid ${accentColor}`,
                     'border-bottom': `2px solid ${accentColor}`,
                     transform: 'rotate(45deg)',
+
                   }}
                 />
               </div>
@@ -208,8 +222,8 @@ export function PokemonCard({ id, name, types = [], description }) {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%) scale(0)',
-                  width: '30px',
-                  height: '30px',
+                  width: '20px',
+                  height: '20px',
                   'background-color': accentColor,
                   'border-radius': '50%',
                   opacity: '0',
@@ -218,6 +232,7 @@ export function PokemonCard({ id, name, types = [], description }) {
                     transform: 'translate(-50%, -50%) scale(1)',
                     opacity: '0.7',
                   }),
+
                 }}
               />
             </div>
@@ -231,22 +246,24 @@ export function PokemonCard({ id, name, types = [], description }) {
               left: '0',
               width: '100%',
               height: '50%',
-              padding: '2.5rem 1.5rem 1.5rem',
+              padding: '1.8rem 1rem 1rem',
               color: '#333',
               'z-index': '1',
               display: 'flex',
               'flex-direction': 'column',
               'justify-content': 'center',
               'text-align': 'center',
+
             }}
           >
             {/* Pokemon Name */}
             <h3
               style={{
-                margin: '0 0 0.5rem',
-                'font-size': '1.4rem',
+                margin: '0 0 0.3rem',
+                'font-size': '1.1rem',
                 color: accentColor,
                 'font-weight': 'bold',
+    
               }}
             >
               {name}
@@ -257,8 +274,9 @@ export function PokemonCard({ id, name, types = [], description }) {
               style={{
                 display: 'flex',
                 'justify-content': 'center',
-                gap: '0.5rem',
-                'margin-bottom': '0.75rem',
+                gap: '0.4rem',
+                'margin-bottom': '0.5rem',
+
               }}
             >
               <For each={types}>{(type) => <TypeBadge type={type} />}</For>
@@ -267,16 +285,17 @@ export function PokemonCard({ id, name, types = [], description }) {
             {/* Description - shortened for space */}
             <p
               style={{
-                'font-size': '0.9rem',
-                'line-height': '1.4',
+                'font-size': '0.75rem',
+                'line-height': '1.3',
                 margin: '0',
                 opacity: '0.9',
-                'max-height': '4.2em',
+                'max-height': '3.9em',
                 overflow: 'hidden',
                 'text-overflow': 'ellipsis',
                 display: '-webkit-box',
                 '-webkit-line-clamp': '3',
                 '-webkit-box-orient': 'vertical',
+    
               }}
             >
               {description}
