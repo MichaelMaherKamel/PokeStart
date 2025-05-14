@@ -55,12 +55,10 @@ The application follows a clean separation between frontend and backend:
 ### Local Development
 
 1. Clone the repository:
-
    ```bash
    git clone https://github.com/yourusername/pokestart.git
    cd pokestart
    ```
-
 2. Start the backend:
 
    ```bash
@@ -69,33 +67,15 @@ The application follows a clean separation between frontend and backend:
    go run main.go
    ```
 
-3. In a new terminal, start the frontend:
+   > The backend server will be running at http://localhost:8080
 
+3. In a new terminal, start the frontend:
    ```bash
    cd frontend
    npm install
    npm run dev
    ```
-
 4. Visit `http://localhost:3000` in your browser
-
-### Using Docker
-
-```bash
-# Build and start both frontend and backend
-docker-compose up -d
-
-# To stop services
-docker-compose down
-```
-
-## 📝 API Documentation
-
-The backend exposes the following endpoints:
-
-- `GET /api/pokemon` - Get all Pokemon (paginated)
-- `GET /api/pokemon/:id` - Get a specific Pokemon by ID
-- `GET /api/types` - Get all Pokemon types
 
 ## 🌐 Deployment
 
@@ -123,5 +103,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgements
 
-- Pokemon data provided by [PokeAPI](https://pokeapi.co/)
-- Built with ❤️ as a demonstration of modern web development techniques
+- Built with 💻 as a demonstration of modern web development techniques
