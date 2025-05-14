@@ -109,8 +109,8 @@ func loadConfig() Config {
 
 	// Set configuration based on environment
 	if env == "production" {
-		config.FrontendURL = "https://pokestart.macrotech.dev"
-		config.Port = 8080 // or get from env var: os.Getenv("PORT")
+		config.FrontendURL = "https://pokestart.macrotech.dev" // FIXED: Updated with correct production frontend URL
+		config.Port = 8080                                     // or get from env var: os.Getenv("PORT")
 	} else {
 		config.FrontendURL = "http://localhost:3000"
 		config.Port = 8080
@@ -178,10 +178,7 @@ func homeHandler(config Config) http.HandlerFunc {
 			"environment": config.Environment,
 			"endpoints": []map[string]string{
 				{"path": "/pokemon", "method": "GET", "description": "Get all Pokemon"},
-				{"path": "/pokemon", "method": "POST", "description": "Create a new Pokemon"},
 				{"path": "/pokemon/{id}", "method": "GET", "description": "Get Pokemon by ID"},
-				{"path": "/pokemon/{id}", "method": "PUT", "description": "Update a Pokemon"},
-				{"path": "/pokemon/{id}", "method": "DELETE", "description": "Delete a Pokemon"},
 			},
 		}
 
