@@ -2,8 +2,6 @@
 
 A demonstration application showcasing the powerful combination of SolidStart (frontend) and Go (backend) for lightning-fast full-stack performance.
 
-![PokeStart Logo](https://pokestart.macrotech.dev/pokemon-logo.png)
-
 ## 🌟 Overview
 
 PokeStart is a demo application built to showcase how SolidStart can be effectively integrated with a Go backend to create high-performance web applications. The combination leverages SolidStart's reactivity model for the frontend and Go's exceptional speed for backend operations, creating an extremely efficient tech stack.
