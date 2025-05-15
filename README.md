@@ -17,7 +17,6 @@ PokeStart is a demo application built to showcase how SolidStart can be effectiv
 
 - **SolidStart Frontend**: Utilizes SolidStart's fine-grained reactivity for optimized UI rendering
 - **Go Backend**: Implements a high-performance API server using Go
-- **TanStack Query**: Implements efficient data fetching and caching strategies
 - **Docker Integration**: Containerized deployment for consistency across environments
 - **Full-Stack Performance**: Demonstrates the speed benefits of this powerful tech combination
 
@@ -26,7 +25,6 @@ PokeStart is a demo application built to showcase how SolidStart can be effectiv
 ### Frontend
 
 - SolidStart (SolidJS framework)
-- TanStack Query for data fetching and caching
 - Tailwind CSS for styling
 
 ### Backend
@@ -40,9 +38,8 @@ PokeStart is a demo application built to showcase how SolidStart can be effectiv
 The application follows a clean separation between frontend and backend:
 
 1. The SolidStart frontend communicates with the Go backend via RESTful API calls
-2. TanStack Query manages data fetching, caching, and synchronization
-3. The Go backend processes requests efficiently and returns data in JSON format
-4. Docker containers ensure consistent deployment across environments
+2. The Go backend processes requests efficiently and returns data in JSON format
+3. Docker containers ensure consistent deployment across environments
 
 ## 🚀 Getting Started
 
@@ -55,10 +52,12 @@ The application follows a clean separation between frontend and backend:
 ### Local Development
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/pokestart.git
    cd pokestart
    ```
+
 2. Start the backend:
 
    ```bash
@@ -70,11 +69,13 @@ The application follows a clean separation between frontend and backend:
    > The backend server will be running at http://localhost:8080
 
 3. In a new terminal, start the frontend:
+
    ```bash
    cd frontend
    npm install
    npm run dev
    ```
+
 4. Visit `http://localhost:3000` in your browser
 
 ## 🌐 Deployment
@@ -90,7 +91,6 @@ This demo showcases exceptional performance through:
 
 - SolidStart's fine-grained reactivity model that minimizes DOM operations
 - Go's efficient request handling and concurrent processing
-- TanStack Query's intelligent caching and background refreshing
 - Docker's optimized deployment configuration
 
 ## 🤝 Contributing
