@@ -1,4 +1,3 @@
-import { A } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import { FloatingPokemon } from './FloatingPokemon'
 import { ParallaxBackground } from './ParallaxBackground'
@@ -30,7 +29,7 @@ export function HeroSection() {
     <section
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '92vh', // Reduced from 100vh to 92vh
         width: '100%',
         display: 'flex',
         'align-items': 'center',
@@ -82,22 +81,7 @@ export function HeroSection() {
         </p>
       </div>
 
-      {/* Bottom Floating Pokemon - Only 2 Pokemon (including Pikachu) */}
-      <div
-        class='bottom-pokemon-container'
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          'z-index': '3', // Higher than the welcome message
-          bottom: '0',
-        }}
-      >
-        <FloatingPokemon id={6} position='left' className='pokemon-left' /> {/* Charizard */}
-        <FloatingPokemon id={25} position='right' className='pokemon-right' /> {/* Pikachu */}
-      </div>
-
-      {/* Top Floating Pokemon - Only 2 Pokemon */}
+      {/* Top Floating Pokemon - 2 Pokemon */}
       <div
         class='top-pokemon-container'
         style={{
@@ -112,6 +96,21 @@ export function HeroSection() {
         <FloatingPokemon id={149} position='right' style={{ top: '10%', right: '20%' }} className='pokemon-right' /> {/* Dragonite */}
       </div>
 
+      {/* Bottom Floating Pokemon - 2 Pokemon */}
+      <div
+        class='bottom-pokemon-container'
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          'z-index': '3', // Higher than the welcome message
+          bottom: '0',
+        }}
+      >
+        <FloatingPokemon id={6} position='left' style={{ bottom: '15%', left: '20%' }} className='pokemon-left' /> {/* Charizard */}
+        <FloatingPokemon id={25} position='right' style={{ bottom: '15%', right: '20%' }} className='pokemon-right' /> {/* Pikachu */}
+      </div>
+
       {/* CSS for responsive layout */}
       <style>
         {`
@@ -120,7 +119,7 @@ export function HeroSection() {
             pointer-events: auto; /* Re-enable pointer events for Pokémon */
           }
           
-          /* Position adjustments for 2 Pokémon per row */
+          /* Position adjustments for Pokémon */
           .pokemon-left {
             left: 20% !important;
           }
