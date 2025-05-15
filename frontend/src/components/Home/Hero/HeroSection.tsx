@@ -29,7 +29,7 @@ export function HeroSection() {
     <section
       style={{
         position: 'relative',
-        height: '92vh', // Reduced from 100vh to 92vh
+        height: '92svh',
         width: '100%',
         display: 'flex',
         'align-items': 'center',
