@@ -13,7 +13,7 @@ const PokemonId: Component = () => {
   const pokemon = createAsync(() => fetchPokemonById(parseInt(params.pokemonId)))
  
   return (
-    <div class='p-4 max-w-4xl mx-auto'>
+    <div class='p-4 max-w-4xl mx-auto h-90dvh'>
       <h2 class='text-2xl font-bold mb-4 text-white'>Pokemon Details</h2>
       <ErrorBoundary fallback={(err) => (
         <div class='p-4 mb-6 bg-red-900 text-red-100 rounded-md'>Error: {err.toString()}</div>
